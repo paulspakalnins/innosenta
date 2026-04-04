@@ -1,0 +1,2562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Innosenta Life Cosmetics — Living cosmetics crafted from 100% natural ingredients, preserved in their purest form, working in perfect harmony with your skin.">
+  <title>Innosenta Life Cosmetics — Living Cosmetics</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       RESET & ROOT VARIABLES
+    ===================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ivory:        #FDFCF9;
+      --cream:        #F3EEE7;
+      --cream-mid:    #EAE1D6;
+      --blue:         #8AACC1;
+      --blue-dark:    #5C7D91;
+      --blue-deeper:  #3A5E73;
+      --blue-light:   #C4D8E4;
+      --blue-pale:    #EDF3F7;
+      --navy:         #1B2C3B;
+      --navy-mid:     #243547;
+      --navy-light:   #2E4159;
+      --gold:         #B8956A;
+      --gold-light:   #D4B48A;
+      --text:         #1A1A1A;
+      --text-muted:   #677381;
+      --text-light:   #9CA8B4;
+      --white:        #FFFFFF;
+
+      --font-serif:   'Cormorant Garamond', Georgia, serif;
+      --font-sans:    'Inter', system-ui, -apple-system, sans-serif;
+
+      --section-pad:  clamp(80px, 10vw, 140px);
+      --container:    1300px;
+      --r-sm:   8px;
+      --r-md:   16px;
+      --r-lg:   24px;
+      --r-xl:   36px;
+      --r-xxl:  52px;
+
+      --shadow-sm: 0 2px 12px rgba(27, 44, 59, 0.06);
+      --shadow-md: 0 8px 36px rgba(27, 44, 59, 0.10);
+      --shadow-lg: 0 20px 64px rgba(27, 44, 59, 0.14);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--ivory);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--blue-dark); }
+
+    /* Selection */
+    ::selection { background: var(--blue-light); color: var(--navy); }
+
+    /* Container */
+    .container {
+      max-width: var(--container);
+      margin: 0 auto;
+      padding: 0 clamp(20px, 5vw, 80px);
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; }
+    button { font-family: var(--font-sans); cursor: pointer; border: none; background: none; }
+
+    /* =====================================================
+       LOADER
+    ===================================================== */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--navy);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+    #loader.out { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .loader-monogram {
+      width: 64px; height: 64px;
+      border: 1px solid rgba(138, 172, 193, 0.3);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 28px; font-style: italic; font-weight: 300;
+      color: var(--blue-light);
+      margin-bottom: 4px;
+    }
+    .loader-name {
+      font-family: var(--font-serif);
+      font-size: clamp(24px, 3.5vw, 42px);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+    .loader-sub {
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(196, 216, 228, 0.55);
+      font-weight: 400;
+    }
+    .loader-bar-wrap {
+      width: 180px; height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 1px; overflow: hidden;
+    }
+    .loader-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue-deeper), var(--blue), var(--blue-light));
+      animation: loader-fill 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes loader-fill {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+
+    /* =====================================================
+       SCROLL PROGRESS
+    ===================================================== */
+    #progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 2px; width: 0%;
+      background: linear-gradient(90deg, var(--blue-deeper), var(--blue), var(--blue-light));
+      z-index: 9000;
+      transition: width 0.08s linear;
+    }
+
+    /* =====================================================
+       STARSCAPE CANVAS
+    ===================================================== */
+    #stars {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+      opacity: 0.45;
+    }
+
+    /* =====================================================
+       NAVBAR
+    ===================================================== */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 800;
+      padding: 26px clamp(20px, 5vw, 64px);
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #nav.pill {
+      top: 14px; left: 50%; right: auto;
+      transform: translateX(-50%);
+      width: min(880px, calc(100% - 40px));
+      padding: 14px 28px;
+      background: rgba(253, 252, 249, 0.93);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-radius: 60px;
+      border: 1px solid rgba(138, 172, 193, 0.18);
+      box-shadow: 0 8px 40px rgba(27, 44, 59, 0.1);
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 13px;
+      color: var(--white); transition: color 0.4s;
+    }
+    #nav.pill .nav-logo { color: var(--navy); }
+    .nav-logo-badge {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--blue);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--font-serif);
+      font-size: 19px; font-style: italic; font-weight: 300;
+      color: white;
+      transition: transform 0.3s;
+    }
+    .nav-logo:hover .nav-logo-badge { transform: scale(1.07); }
+    /* Drop-in replacement when logo image is added: */
+    .nav-logo-img {
+      height: 34px; width: auto; object-fit: contain;
+    }
+    .nav-logo-wordmark {
+      font-family: var(--font-serif);
+      font-size: 16px; font-weight: 300;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .nav-logo-micro {
+      display: block;
+      font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+      opacity: 0.55; font-family: var(--font-sans); font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex; list-style: none;
+      gap: 34px; align-items: center;
+    }
+    .nav-links a {
+      font-size: 12px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 500;
+      color: rgba(255,255,255,0.75); transition: color 0.3s;
+    }
+    .nav-links a:hover { color: white; }
+    #nav.pill .nav-links a { color: var(--text-muted); }
+    #nav.pill .nav-links a:hover { color: var(--navy); }
+
+    .nav-shop-btn {
+      background: var(--blue); color: white;
+      padding: 10px 24px; border-radius: 40px;
+      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 500; transition: all 0.3s;
+    }
+    .nav-shop-btn:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(138, 172, 193, 0.35);
+    }
+    #nav.pill .nav-shop-btn { color: white; }
+
+    .nav-burger {
+      display: none; flex-direction: column; gap: 5px;
+      padding: 4px; cursor: pointer;
+    }
+    .nav-burger span {
+      display: block; width: 22px; height: 1.5px;
+      background: white; border-radius: 2px; transition: all 0.3s;
+    }
+    #nav.pill .nav-burger span { background: var(--navy); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      position: fixed; inset: 0;
+      background: var(--navy);
+      z-index: 790; opacity: 0; visibility: hidden;
+      transition: opacity 0.4s, visibility 0.4s;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 36px;
+    }
+    #mobile-menu.open { opacity: 1; visibility: visible; }
+    .mobile-menu-close {
+      position: absolute; top: 28px; right: 28px;
+      font-size: 28px; color: rgba(255,255,255,0.5); cursor: pointer;
+      background: none; border: none; font-family: var(--font-serif);
+      line-height: 1;
+    }
+    .mobile-menu-close:hover { color: white; }
+    #mobile-menu a {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 5vw, 44px); font-weight: 300;
+      font-style: italic; color: rgba(255,255,255,0.75);
+      letter-spacing: 0.05em; transition: color 0.3s;
+    }
+    #mobile-menu a:hover { color: var(--blue-light); }
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--blue); color: white;
+      padding: 16px 38px; border-radius: 60px;
+      font-size: 12px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 500;
+      transition: all 0.35s ease;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 36px rgba(138, 172, 193, 0.32);
+    }
+    .btn-arrow {
+      width: 22px; height: 22px;
+      border: 1.5px solid rgba(255,255,255,0.45); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: transform 0.3s;
+    }
+    .btn-primary:hover .btn-arrow { transform: translateX(3px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: transparent; color: rgba(255,255,255,0.75);
+      padding: 16px 38px; border-radius: 60px;
+      font-size: 12px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 400;
+      border: 1px solid rgba(255,255,255,0.22);
+      transition: all 0.3s;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.45);
+      color: white;
+    }
+    .btn-ghost-dark {
+      color: var(--text-muted);
+      border-color: rgba(138,172,193,0.28);
+    }
+    .btn-ghost-dark:hover {
+      background: var(--blue-pale);
+      border-color: var(--blue-light);
+      color: var(--navy);
+    }
+
+    /* =====================================================
+       SECTION SHARED STYLES
+    ===================================================== */
+    section { position: relative; z-index: 1; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 14px;
+      font-size: 11px; letter-spacing: 0.3em;
+      text-transform: uppercase; font-weight: 500;
+      color: var(--blue); margin-bottom: 18px;
+    }
+    .eyebrow::before {
+      content: ''; display: block;
+      width: 30px; height: 1px;
+      background: currentColor; flex-shrink: 0;
+    }
+    .eyebrow-center::before { display: none; }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(38px, 5.5vw, 68px);
+      font-weight: 300; line-height: 1.08;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .section-title em { font-style: italic; color: var(--blue); }
+    .section-title--light { color: white; }
+    .section-title--light em { color: var(--blue-light); }
+
+    .section-body {
+      font-size: 16px; font-weight: 300;
+      line-height: 1.95; color: var(--text-muted);
+    }
+    .section-body--light { color: rgba(255,255,255,0.55); }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(36px);
+      transition: opacity 0.85s ease, transform 0.85s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+    #hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; align-items: center;
+      overflow: hidden; position: relative;
+    }
+
+    /* Atmospheric orbs */
+    .hero-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); pointer-events: none;
+    }
+    .hero-orb-1 {
+      width: 55vw; height: 55vw;
+      background: radial-gradient(circle, var(--blue) 0%, var(--blue-dark) 60%, transparent 100%);
+      opacity: 0.18;
+      top: -15%; right: -10%;
+    }
+    .hero-orb-2 {
+      width: 35vw; height: 35vw;
+      background: radial-gradient(circle, var(--blue-deeper) 0%, transparent 100%);
+      opacity: 0.3;
+      bottom: -5%; left: -5%;
+    }
+    .hero-orb-3 {
+      width: 20vw; height: 20vw;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 100%);
+      opacity: 0.08;
+      top: 45%; left: 55%;
+    }
+
+    /* Fine grid */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(138,172,193,0.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(138,172,193,0.055) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+
+    /* Noise grain overlay */
+    .hero-noise {
+      position: absolute; inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 180px 180px;
+    }
+
+    /* Bottom fade */
+    .hero-vignette-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 220px;
+      background: linear-gradient(to bottom, transparent, var(--navy));
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      padding-top: 130px; padding-bottom: 80px;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px; letter-spacing: 0.35em;
+      text-transform: uppercase; font-weight: 400;
+      color: var(--blue-light);
+      display: flex; align-items: center; gap: 18px;
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 42px; height: 1px;
+      background: var(--blue);
+    }
+
+    .hero-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(56px, 9vw, 118px);
+      font-weight: 300; line-height: 0.97;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      max-width: 860px;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--blue-light);
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 1.8vw, 18px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.85; max-width: 460px;
+      margin-top: 32px; margin-bottom: 52px;
+    }
+
+    .hero-cta-row {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hero-trust {
+      display: flex; gap: 32px; flex-wrap: wrap;
+      margin-top: 64px;
+    }
+    .hero-trust-item {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); font-weight: 400;
+    }
+    .hero-trust-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 38px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      pointer-events: none;
+    }
+    .hero-scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.35), transparent);
+      animation: scroll-pulse 2.2s ease infinite;
+    }
+    @keyframes scroll-pulse {
+      0%   { opacity: 0; transform: scaleY(0); transform-origin: top; }
+      50%  { opacity: 1; }
+      100% { opacity: 0; transform: scaleY(1); transform-origin: top; }
+    }
+
+    /* =====================================================
+       MARQUEE BAND
+    ===================================================== */
+    .marquee-band {
+      background: var(--navy);
+      border-top: 1px solid rgba(138,172,193,0.1);
+      border-bottom: 1px solid rgba(138,172,193,0.1);
+      padding: 18px 0; overflow: hidden;
+    }
+    .marquee-inner {
+      display: flex;
+      animation: marquee-slide 28s linear infinite;
+      width: max-content;
+    }
+    .marquee-inner:hover { animation-play-state: paused; }
+    @keyframes marquee-slide {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 22px;
+      padding: 0 22px;
+      font-size: 10.5px; letter-spacing: 0.28em;
+      text-transform: uppercase; font-weight: 400;
+      color: rgba(196, 216, 228, 0.6);
+      white-space: nowrap;
+    }
+    .marquee-sep {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--blue); opacity: 0.6; flex-shrink: 0;
+    }
+
+    /* =====================================================
+       PHILOSOPHY SECTION
+    ===================================================== */
+    #philosophy {
+      padding: var(--section-pad) 0;
+      background: var(--ivory);
+    }
+
+    .philosophy-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(60px, 9vw, 130px);
+      align-items: center;
+    }
+
+    .philosophy-bignumber {
+      font-family: var(--font-serif);
+      font-size: clamp(88px, 14vw, 180px);
+      font-weight: 300; line-height: 1;
+      color: var(--blue-pale);
+      letter-spacing: -0.04em;
+      margin-bottom: -16px;
+      user-select: none;
+    }
+
+    .philosophy-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(19px, 2.2vw, 26px);
+      font-style: italic; font-weight: 300;
+      color: var(--text); line-height: 1.65;
+      border-left: 2px solid var(--blue);
+      padding-left: 28px;
+      margin: 32px 0 28px;
+    }
+
+    .philosophy-pillars {
+      display: flex; flex-direction: column; gap: 18px;
+    }
+
+    .pillar {
+      display: flex; gap: 18px; align-items: flex-start;
+      background: var(--white);
+      border: 1px solid rgba(138, 172, 193, 0.13);
+      border-radius: var(--r-lg);
+      padding: 26px 30px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .pillar:hover {
+      transform: translateX(7px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(138, 172, 193, 0.3);
+    }
+
+    .pillar-ico {
+      width: 46px; height: 46px; flex-shrink: 0;
+      background: var(--blue-pale); border-radius: var(--r-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue-dark);
+    }
+    .pillar-ico svg { width: 20px; height: 20px; }
+
+    .pillar-title {
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: var(--text); margin-bottom: 5px;
+    }
+    .pillar-body {
+      font-size: 14px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.75;
+    }
+
+    /* =====================================================
+       FEATURED PRODUCTS
+    ===================================================== */
+    #products {
+      padding: var(--section-pad) 0;
+      background: var(--cream);
+    }
+
+    .products-top {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; gap: 32px;
+      margin-bottom: 60px; flex-wrap: wrap;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .prod-card {
+      background: var(--white);
+      border-radius: var(--r-xxl);
+      overflow: hidden;
+      border: 1px solid rgba(138, 172, 193, 0.1);
+      transition: transform 0.45s cubic-bezier(0.2, 0, 0, 1),
+                  box-shadow 0.45s ease;
+      position: relative;
+    }
+    .prod-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Gradient placeholder swatches */
+    .prod-visual {
+      aspect-ratio: 4 / 5;
+      position: relative; overflow: hidden;
+    }
+    .prod-swatch {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px;
+      transition: transform 0.6s cubic-bezier(0.2, 0, 0, 1);
+    }
+    .prod-card:hover .prod-swatch { transform: scale(1.04); }
+
+    .swatch-a { background: linear-gradient(145deg, #D4E4ED 0%, #8AACC1 55%, #4A7088 100%); }
+    .swatch-b { background: linear-gradient(145deg, #E8DDD2 0%, #C4A882 55%, #8A6E48 100%); }
+    .swatch-c { background: linear-gradient(145deg, #C8DDE8 0%, #7AAEBE 55%, #3C647A 100%); }
+    .swatch-d { background: linear-gradient(145deg, #D4E8D0 0%, #96BE8E 55%, #5A8250 100%); }
+
+    .prod-swatch-icon {
+      width: 52px; height: 52px;
+      border: 1.5px solid rgba(255,255,255,0.4); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .prod-swatch-icon svg { width: 22px; height: 22px; stroke: rgba(255,255,255,0.65); stroke-width: 1.2; fill: none; }
+    .prod-swatch-label {
+      font-size: 9.5px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: rgba(255,255,255,0.55);
+      font-weight: 400;
+    }
+
+    /* Pill badge */
+    .prod-badge {
+      position: absolute; top: 16px; left: 16px; z-index: 2;
+      background: rgba(253,252,249,0.92);
+      color: var(--blue-dark); font-size: 9.5px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      padding: 5px 13px; border-radius: 20px;
+      font-weight: 500; backdrop-filter: blur(8px);
+    }
+
+    .prod-info { padding: 22px 24px; }
+
+    .prod-cat {
+      font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--blue);
+      font-weight: 500; margin-bottom: 7px;
+    }
+    .prod-name {
+      font-family: var(--font-serif);
+      font-size: 22px; font-weight: 400; line-height: 1.22;
+      color: var(--text); margin-bottom: 12px;
+    }
+    .prod-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 16px;
+    }
+    .chip {
+      font-size: 10px; padding: 4px 11px;
+      background: var(--blue-pale);
+      color: var(--blue-dark); border-radius: 20px;
+      letter-spacing: 0.07em; font-weight: 400;
+    }
+    .prod-desc {
+      font-size: 13px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.65;
+      margin-bottom: 0;
+    }
+    .prod-footer {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-top: 1px solid rgba(138,172,193,0.1);
+    }
+    .prod-price {
+      font-family: var(--font-serif);
+      font-size: 22px; font-weight: 400; color: var(--text);
+    }
+    .prod-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--blue); display: flex;
+      align-items: center; justify-content: center;
+      color: white; transition: background 0.3s, transform 0.3s;
+    }
+    .prod-btn:hover { background: var(--blue-dark); transform: scale(1.12); }
+    .prod-btn svg { width: 14px; height: 14px; stroke: white; stroke-width: 1.5; fill: none; }
+
+    /* =====================================================
+       SCIENCE / VS SECTION
+    ===================================================== */
+    #science {
+      padding: var(--section-pad) 0;
+      background: var(--navy);
+      overflow: hidden;
+    }
+
+    #science .eyebrow { color: var(--blue-light); }
+    #science .eyebrow::before { background: var(--blue-light); }
+
+    .science-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(60px, 8vw, 110px);
+      align-items: start;
+    }
+
+    .science-divider {
+      width: 48px; height: 1px;
+      background: rgba(138,172,193,0.25);
+      margin: 36px 0;
+    }
+
+    .science-quote-card {
+      background: rgba(138,172,193,0.07);
+      border-left: 2px solid var(--blue);
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+      padding: 30px 34px; margin-top: 36px;
+    }
+    .science-quote-card p {
+      font-family: var(--font-serif);
+      font-size: clamp(17px, 1.8vw, 22px);
+      font-style: italic; font-weight: 300;
+      line-height: 1.72;
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* Comparison grid */
+    .vs-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .vs-card {
+      border-radius: var(--r-md);
+      padding: 26px 22px;
+    }
+    .vs-card-bad {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .vs-card-good {
+      background: rgba(138,172,193,0.1);
+      border: 1px solid rgba(138,172,193,0.18);
+    }
+    .vs-label {
+      font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 500;
+      padding-bottom: 14px; margin-bottom: 18px;
+    }
+    .vs-card-bad .vs-label {
+      color: rgba(255,255,255,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .vs-card-good .vs-label {
+      color: var(--blue-light);
+      border-bottom: 1px solid rgba(138,172,193,0.18);
+    }
+    .vs-list { list-style: none; display: flex; flex-direction: column; gap: 13px; }
+    .vs-item {
+      display: flex; gap: 11px;
+      font-size: 13px; font-weight: 300; line-height: 1.5;
+    }
+    .vs-card-bad .vs-item { color: rgba(255,255,255,0.45); }
+    .vs-card-good .vs-item { color: rgba(255,255,255,0.82); }
+    .vs-ico { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Ritual steps */
+    .ritual-steps {
+      margin-top: 28px;
+    }
+    .ritual-label {
+      font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+      margin-bottom: 12px;
+    }
+    .ritual-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      overflow: hidden; border-radius: var(--r-sm);
+      border: 1px solid rgba(138,172,193,0.12);
+    }
+    .ritual-step {
+      padding: 16px 10px; text-align: center;
+      border-right: 1px solid rgba(138,172,193,0.1);
+      background: rgba(138,172,193,0.04);
+    }
+    .ritual-step:last-child { border-right: none; }
+    .ritual-step-num {
+      font-size: 9.5px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--blue-light);
+      font-weight: 500; margin-bottom: 5px;
+    }
+    .ritual-step-name {
+      font-size: 11px; color: rgba(255,255,255,0.38);
+      font-weight: 300;
+    }
+
+    /* =====================================================
+       INGREDIENTS
+    ===================================================== */
+    #ingredients {
+      padding: var(--section-pad) 0;
+      background: var(--ivory);
+    }
+
+    .ingredients-head {
+      text-align: center; max-width: 580px;
+      margin: 0 auto clamp(56px, 7vw, 80px);
+    }
+
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+    }
+
+    .ing-card {
+      background: var(--white);
+      border: 1px solid rgba(138,172,193,0.11);
+      border-radius: var(--r-xl);
+      padding: 34px 20px 28px;
+      text-align: center;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .ing-card:hover {
+      transform: translateY(-7px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--blue-light);
+    }
+    .ing-icon {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: var(--blue-pale);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; font-size: 24px;
+    }
+    .ing-name {
+      font-family: var(--font-serif);
+      font-size: 19px; font-weight: 400;
+      color: var(--text); margin-bottom: 9px;
+    }
+    .ing-benefit {
+      font-size: 12.5px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.65;
+    }
+
+    /* =====================================================
+       STATS BAR
+    ===================================================== */
+    #stats {
+      padding: clamp(56px, 7vw, 96px) 0;
+      background: var(--blue);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat {
+      text-align: center;
+      padding: 36px 16px;
+      border-right: 1px solid rgba(255,255,255,0.14);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: var(--font-serif);
+      font-size: clamp(50px, 7vw, 82px);
+      font-weight: 300; line-height: 1;
+      color: white; letter-spacing: -0.02em;
+    }
+    .stat-num sup {
+      font-size: 0.45em; vertical-align: super;
+      font-style: italic; opacity: 0.65;
+    }
+    .stat-num sub {
+      font-size: 0.38em; vertical-align: middle;
+      font-style: italic; opacity: 0.65;
+    }
+
+    .stat-label {
+      font-size: 10.5px; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6); font-weight: 400;
+      margin-top: 12px;
+    }
+    .stat-hint {
+      font-size: 12.5px; color: rgba(255,255,255,0.4);
+      font-weight: 300; margin-top: 6px;
+    }
+
+    /* =====================================================
+       FULL RANGE
+    ===================================================== */
+    #range {
+      padding: var(--section-pad) 0;
+      background: var(--cream);
+    }
+
+    .range-head {
+      text-align: center; max-width: 600px;
+      margin: 0 auto clamp(56px, 7vw, 80px);
+    }
+
+    .range-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .range-card {
+      background: var(--white);
+      border: 1px solid rgba(138,172,193,0.11);
+      border-radius: var(--r-xxl);
+      padding: 40px 36px;
+      position: relative; overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .range-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue-deep, var(--blue-deeper)), var(--blue), var(--blue-light));
+      opacity: 0; transition: opacity 0.35s;
+    }
+    .range-card:hover {
+      transform: translateY(-7px);
+      box-shadow: var(--shadow-lg);
+    }
+    .range-card:hover::after { opacity: 1; }
+
+    .range-num {
+      font-family: var(--font-serif);
+      font-size: 52px; font-weight: 300;
+      color: var(--blue-pale); line-height: 1;
+      margin-bottom: 20px; letter-spacing: -0.02em;
+      user-select: none;
+    }
+    .range-name {
+      font-family: var(--font-serif);
+      font-size: 28px; font-weight: 400;
+      color: var(--text); margin-bottom: 12px;
+    }
+    .range-desc {
+      font-size: 14px; font-weight: 300;
+      color: var(--text-muted); line-height: 1.78;
+      margin-bottom: 28px;
+    }
+    .range-link {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; font-weight: 500;
+      color: var(--blue); transition: gap 0.25s;
+    }
+    .range-link:hover { gap: 15px; }
+    .range-link svg {
+      width: 14px; height: 14px;
+      stroke: currentColor; stroke-width: 1.5; fill: none;
+    }
+
+    /* =====================================================
+       3D / VIDEO SHOWCASE PLACEHOLDER
+    ===================================================== */
+    #showcase {
+      padding: var(--section-pad) 0;
+      background: var(--navy);
+    }
+
+    .showcase-box {
+      border: 1px dashed rgba(138,172,193,0.22);
+      border-radius: var(--r-xxl);
+      padding: clamp(64px, 9vw, 128px) 40px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .showcase-box::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 50%,
+        rgba(138,172,193,0.055) 0%, transparent 65%);
+    }
+
+    .showcase-inner-content { position: relative; z-index: 1; }
+
+    .showcase-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(138,172,193,0.09);
+      border: 1px solid rgba(138,172,193,0.18);
+      padding: 7px 20px; border-radius: 40px;
+      font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--blue-light);
+      margin-bottom: 28px;
+    }
+    .showcase-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue);
+      animation: dot-pulse 2s ease infinite;
+    }
+    @keyframes dot-pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    .showcase-ring {
+      width: 88px; height: 88px;
+      border: 1px solid rgba(138,172,193,0.22); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 28px;
+      color: var(--blue-light);
+    }
+    .showcase-ring svg {
+      width: 36px; height: 36px;
+      stroke: currentColor; stroke-width: 0.9; fill: none;
+    }
+
+    .showcase-title {
+      font-family: var(--font-serif);
+      font-size: clamp(30px, 4.5vw, 56px);
+      font-weight: 300; line-height: 1.2;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 16px;
+    }
+    .showcase-title em { font-style: italic; opacity: 0.45; }
+    .showcase-desc {
+      font-size: 14px; font-weight: 300;
+      color: rgba(255,255,255,0.28);
+      max-width: 380px; margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* =====================================================
+       TESTIMONIALS
+    ===================================================== */
+    #testimonials {
+      padding: var(--section-pad) 0;
+      background: var(--ivory);
+      overflow: hidden;
+    }
+
+    .testimonials-head {
+      text-align: center; max-width: 520px;
+      margin: 0 auto 60px;
+    }
+
+    .t-scroll-wrap {
+      overflow-x: scroll; overflow-y: hidden;
+      scrollbar-width: none; -ms-overflow-style: none;
+      cursor: grab; user-select: none;
+    }
+    .t-scroll-wrap::-webkit-scrollbar { display: none; }
+    .t-scroll-wrap:active { cursor: grabbing; }
+
+    .t-track {
+      display: flex; gap: 22px;
+      padding: 8px 0 16px;
+      width: max-content;
+    }
+
+    .t-card {
+      width: 390px; flex-shrink: 0;
+      background: var(--white);
+      border: 1px solid rgba(138,172,193,0.11);
+      border-radius: var(--r-xxl);
+      padding: 38px 34px;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+    .t-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .t-stars { display: flex; gap: 4px; margin-bottom: 20px; }
+    .t-star { color: var(--gold); font-size: 15px; }
+
+    .t-quote {
+      font-family: var(--font-serif);
+      font-size: 18px; font-style: italic;
+      font-weight: 300; line-height: 1.75;
+      color: var(--text); margin-bottom: 28px;
+    }
+
+    .t-author { display: flex; align-items: center; gap: 14px; }
+    .t-avatar {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: var(--blue-pale);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif);
+      font-size: 20px; color: var(--blue-dark);
+      flex-shrink: 0;
+    }
+    .t-name { font-size: 14px; font-weight: 500; color: var(--text); }
+    .t-loc  { font-size: 12px; font-weight: 300; color: var(--text-light); }
+
+    .t-nav {
+      display: flex; justify-content: center; gap: 12px;
+      margin-top: 38px;
+    }
+    .t-nav-btn {
+      width: 50px; height: 50px; border-radius: 50%;
+      border: 1px solid rgba(138,172,193,0.22);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.3s;
+      color: var(--text-muted); background: transparent;
+    }
+    .t-nav-btn:hover {
+      background: var(--blue); border-color: var(--blue);
+      color: white;
+    }
+    .t-nav-btn svg {
+      width: 16px; height: 16px;
+      stroke: currentColor; stroke-width: 1.5; fill: none;
+    }
+
+    /* =====================================================
+       FINAL CTA
+    ===================================================== */
+    #cta {
+      padding: var(--section-pad) 0;
+      background: var(--navy);
+      overflow: hidden; position: relative;
+    }
+    .cta-orb-1 {
+      position: absolute; width: 52vw; height: 52vw;
+      background: radial-gradient(circle, var(--blue) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(100px); opacity: 0.1;
+      top: -15vw; right: -10vw; pointer-events: none;
+    }
+    .cta-orb-2 {
+      position: absolute; width: 30vw; height: 30vw;
+      background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+      border-radius: 50%; filter: blur(80px); opacity: 0.07;
+      bottom: -8vw; left: 8%; pointer-events: none;
+    }
+    .cta-content {
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+    .cta-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(48px, 7.5vw, 96px);
+      font-weight: 300; line-height: 1.07;
+      letter-spacing: -0.015em;
+      color: white; margin-bottom: 28px;
+    }
+    .cta-headline em { font-style: italic; color: var(--blue-light); }
+    .cta-sub {
+      font-size: 16px; font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      max-width: 460px; margin: 0 auto 52px;
+      line-height: 1.85;
+    }
+    .cta-btns {
+      display: flex; gap: 16px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .cta-trust-row {
+      display: flex; gap: 36px; justify-content: center;
+      flex-wrap: wrap; margin-top: 52px;
+    }
+    .cta-trust-item {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35); font-weight: 400;
+    }
+    .cta-trust-icon { color: var(--blue); flex-shrink: 0; }
+    .cta-trust-icon svg {
+      width: 15px; height: 15px;
+      stroke: currentColor; stroke-width: 1.5; fill: none;
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(138,172,193,0.08);
+      padding: 84px 0 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2.2fr 1fr 1fr 1fr;
+      gap: 56px; margin-bottom: 56px;
+    }
+
+    .footer-brand-desc {
+      font-size: 14px; font-weight: 300;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.85; max-width: 290px;
+      margin-top: 20px;
+    }
+
+    .footer-logo-link {
+      display: inline-flex; align-items: center; gap: 13px;
+      color: white;
+    }
+    .footer-logo-wordmark {
+      font-family: var(--font-serif);
+      font-size: 18px; font-weight: 300;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .footer-logo-micro {
+      display: block; font-size: 9px;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      opacity: 0.4; font-family: var(--font-sans); font-weight: 400;
+    }
+
+    .footer-col h4 {
+      font-size: 10.5px; letter-spacing: 0.22em;
+      text-transform: uppercase; font-weight: 500;
+      color: rgba(255,255,255,0.4); margin-bottom: 22px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 13px; }
+    .footer-col ul a {
+      font-size: 14px; font-weight: 300;
+      color: rgba(255,255,255,0.48); transition: color 0.3s;
+    }
+    .footer-col ul a:hover { color: white; }
+
+    .footer-bottom {
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 18px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-copy {
+      font-size: 12px; font-weight: 300;
+      color: rgba(255,255,255,0.28);
+    }
+    .footer-langs { display: flex; gap: 18px; }
+    .footer-lang {
+      font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      cursor: pointer; transition: color 0.3s;
+    }
+    .footer-lang:hover { color: white; }
+    .footer-lang.active { color: var(--blue-light); }
+
+    /* =====================================================
+       RESPONSIVE
+    ===================================================== */
+    @media (max-width: 1140px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .ingredients-grid { grid-template-columns: repeat(3, 1fr); }
+      .footer-grid { grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; }
+      .footer-grid > div:first-child { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 900px) {
+      .philosophy-layout { grid-template-columns: 1fr; gap: 56px; }
+      .science-layout { grid-template-columns: 1fr; gap: 48px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat { border-bottom: 1px solid rgba(255,255,255,0.1); }
+      .range-grid { grid-template-columns: repeat(2, 1fr); }
+      .vs-grid { grid-template-columns: 1fr; }
+      .ritual-grid { grid-template-columns: repeat(2, 1fr); }
+      .ritual-step { border-bottom: 1px solid rgba(138,172,193,0.1); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .range-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+      .ingredients-grid { grid-template-columns: repeat(2, 1fr); }
+      #nav.pill { padding: 14px 20px; }
+    }
+
+    @media (max-width: 520px) {
+      .products-grid { grid-template-columns: 1fr; max-width: 340px; margin: 0 auto; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .stat { border-right: none; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .t-card { width: 310px; }
+      .hero-headline { font-size: clamp(48px, 13vw, 80px); }
+      .ingredients-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       LOADER
+  ===================================================== -->
+  <div id="loader" role="status" aria-label="Loading">
+    <div class="loader-monogram">I</div>
+    <div class="loader-name">Innosenta</div>
+    <div class="loader-sub">Life Cosmetics</div>
+    <div class="loader-bar-wrap">
+      <div class="loader-bar-fill"></div>
+    </div>
+  </div>
+
+  <!-- Stars background -->
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <!-- Scroll progress -->
+  <div id="progress-bar" aria-hidden="true"></div>
+
+  <!-- =====================================================
+       NAVBAR
+  ===================================================== -->
+  <header id="nav" role="banner">
+    <a href="#" class="nav-logo" aria-label="Innosenta Home">
+      <!--
+        To add your logo, replace the badge below with:
+        <img src="logo.svg" class="nav-logo-img" alt="Innosenta">
+      -->
+      <div class="nav-logo-badge" aria-hidden="true">I</div>
+      <div>
+        <div class="nav-logo-wordmark">Innosenta</div>
+        <span class="nav-logo-micro">Life Cosmetics</span>
+      </div>
+    </a>
+
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#science">Our Science</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li>
+          <a href="https://www.innosenta.com/en/shop"
+             class="nav-shop-btn"
+             target="_blank" rel="noopener">Shop Now</a>
+        </li>
+      </ul>
+    </nav>
+
+    <button class="nav-burger" id="burger-btn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <button class="mobile-menu-close" id="menu-close" aria-label="Close menu">✕</button>
+    <a href="#philosophy" class="menu-link">Philosophy</a>
+    <a href="#products"   class="menu-link">Products</a>
+    <a href="#science"    class="menu-link">Our Science</a>
+    <a href="#testimonials" class="menu-link">Reviews</a>
+    <a href="https://www.innosenta.com/en/shop" target="_blank" rel="noopener" class="menu-link">Shop</a>
+  </div>
+
+  <!-- =====================================================
+       HERO
+  ===================================================== -->
+  <section id="hero" aria-labelledby="hero-headline">
+    <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-3" aria-hidden="true"></div>
+    <div class="hero-grid"  aria-hidden="true"></div>
+    <div class="hero-noise" aria-hidden="true"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Living Cosmetics</p>
+        <h1 class="hero-headline" id="hero-headline">
+          Where <em>Nature</em><br>
+          Meets<br>
+          Intelligence
+        </h1>
+        <p class="hero-sub">
+          Skincare formulated without compromise — pure natural
+          ingredients preserved in their most living form, working
+          in perfect harmony with your skin.
+        </p>
+        <div class="hero-cta-row">
+          <a href="https://www.innosenta.com/en/shop"
+             class="btn-primary"
+             target="_blank" rel="noopener">
+            Discover Collection
+            <span class="btn-arrow" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                   stroke="currentColor" stroke-width="1.5">
+                <path d="M2 6h8M6 2l4 4-4 4"/>
+              </svg>
+            </span>
+          </a>
+          <a href="#philosophy" class="btn-ghost">Our Philosophy</a>
+        </div>
+
+        <div class="hero-trust" aria-label="Key brand attributes">
+          <span class="hero-trust-item">
+            <span class="hero-trust-dot" aria-hidden="true"></span>
+            100% Natural Ingredients
+          </span>
+          <span class="hero-trust-item">
+            <span class="hero-trust-dot" aria-hidden="true"></span>
+            Zero Synthetic Additives
+          </span>
+          <span class="hero-trust-item">
+            <span class="hero-trust-dot" aria-hidden="true"></span>
+            Fresh-Made in 1–3 Days
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-vignette-bottom" aria-hidden="true"></div>
+    <div class="hero-scroll" aria-hidden="true">
+      <div class="hero-scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       MARQUEE BAND
+  ===================================================== -->
+  <div class="marquee-band" aria-hidden="true">
+    <div class="marquee-inner">
+      <!-- First set -->
+      <span class="marquee-item"><span class="marquee-sep"></span>Living Cosmetics</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>No Synthetic Additives</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Fresh Formulations</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Pure Natural Ingredients</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Skin Intelligence</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Sustainable Results</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Innosenta</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="marquee-item"><span class="marquee-sep"></span>Living Cosmetics</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>No Synthetic Additives</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Fresh Formulations</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Pure Natural Ingredients</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Skin Intelligence</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Sustainable Results</span>
+      <span class="marquee-item"><span class="marquee-sep"></span>Innosenta</span>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       PHILOSOPHY
+  ===================================================== -->
+  <section id="philosophy" aria-labelledby="philosophy-title">
+    <div class="container">
+      <div class="philosophy-layout">
+
+        <!-- Left: copy -->
+        <div>
+          <div class="philosophy-bignumber reveal" aria-hidden="true">01</div>
+          <span class="eyebrow reveal reveal-d1">Our Philosophy</span>
+          <h2 class="section-title reveal reveal-d1" id="philosophy-title">
+            The Living<br>Cosmetics <em>Difference</em>
+          </h2>
+          <blockquote class="philosophy-quote reveal reveal-d2">
+            "Man is part of nature and can only function harmoniously
+            as part of it, within the laws of nature."
+          </blockquote>
+          <p class="section-body reveal reveal-d2">
+            Most cosmetics marketed as "natural" still contain up to 5% synthetic
+            additives — added for texture, fragrance, and shelf stability. These
+            foreign molecules burden the body's lymphatic system, forcing skin cells
+            to eliminate them rather than producing elastin, collagen, and other
+            vital substances.
+          </p>
+          <p class="section-body reveal reveal-d3" style="margin-top:18px;">
+            Innosenta is different. Every formula contains exclusively natural
+            raw materials in their most unaltered, living form — preserving the
+            inherent qualities that nature intended, so your skin can do what
+            it was always designed to do.
+          </p>
+        </div>
+
+        <!-- Right: pillars -->
+        <div class="philosophy-pillars">
+          <div class="pillar reveal reveal-d1">
+            <div class="pillar-ico" aria-hidden="true">
+              <!-- Leaf icon -->
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M12 2C6 2 3 8 3 12c0 5 4 8 9 10 5-2 9-5 9-10 0-4-3-10-9-10z"/>
+                <path d="M12 22V12M12 12C9 10 6 9 3 12"/>
+              </svg>
+            </div>
+            <div>
+              <p class="pillar-title">Zero Synthetic Additives</p>
+              <p class="pillar-body">
+                No artificial preservatives, fragrances, or mineral fillers.
+                Every single ingredient is of natural origin — always.
+              </p>
+            </div>
+          </div>
+
+          <div class="pillar reveal reveal-d2">
+            <div class="pillar-ico" aria-hidden="true">
+              <!-- Drop / freshness icon -->
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M12 2l7 10a7 7 0 11-14 0L12 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="pillar-title">Fresh-Made Production</p>
+              <p class="pillar-body">
+                Each order is fulfilled within 1–3 days of formulation,
+                ensuring peak potency and freshness in every bottle.
+              </p>
+            </div>
+          </div>
+
+          <div class="pillar reveal reveal-d3">
+            <div class="pillar-ico" aria-hidden="true">
+              <!-- Clock / lasting icon -->
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <div>
+              <p class="pillar-title">Lasting Cellular Results</p>
+              <p class="pillar-body">
+                By working with your skin's natural renewal cycles rather than
+                against them, improvements develop gradually and endure.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FEATURED PRODUCTS
+  ===================================================== -->
+  <section id="products" aria-labelledby="products-title">
+    <div class="container">
+      <div class="products-top">
+        <div>
+          <span class="eyebrow reveal">Signature Formulas</span>
+          <h2 class="section-title reveal reveal-d1" id="products-title">
+            Our <em>Bestsellers</em>
+          </h2>
+        </div>
+        <a href="https://www.innosenta.com/en/shop"
+           class="btn-ghost btn-ghost-dark reveal reveal-d2"
+           target="_blank" rel="noopener">
+          View All Products
+        </a>
+      </div>
+
+      <div class="products-grid">
+
+        <!-- HydraPeptide Serum -->
+        <article class="prod-card reveal">
+          <div class="prod-visual">
+            <div class="prod-swatch swatch-a" aria-label="Product image placeholder">
+              <div class="prod-swatch-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l7 10a7 7 0 11-14 0L12 2z"/></svg>
+              </div>
+              <span class="prod-swatch-label">Product Image</span>
+            </div>
+            <span class="prod-badge">Bestseller</span>
+          </div>
+          <div class="prod-info">
+            <p class="prod-cat">Serum</p>
+            <h3 class="prod-name">HydraPeptide Serum</h3>
+            <div class="prod-chips">
+              <span class="chip">Hyaluronic Acid</span>
+              <span class="chip">Peptides</span>
+              <span class="chip">Argan Oil</span>
+            </div>
+            <p class="prod-desc">
+              Stimulates fibroblasts to produce collagen, elastin and
+              natural hyaluronic acid. Absorbs quickly, leaving skin
+              visibly smoother and plumper.
+            </p>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">€33.00</span>
+            <a href="https://www.innosenta.com/en/shop"
+               class="prod-btn"
+               aria-label="View HydraPeptide Serum"
+               target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- ProbioBalance Fluid -->
+        <article class="prod-card reveal reveal-d1">
+          <div class="prod-visual">
+            <div class="prod-swatch swatch-b" aria-label="Product image placeholder">
+              <div class="prod-swatch-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+              </div>
+              <span class="prod-swatch-label">Product Image</span>
+            </div>
+          </div>
+          <div class="prod-info">
+            <p class="prod-cat">Fluid</p>
+            <h3 class="prod-name">ProbioBalance Fluid</h3>
+            <div class="prod-chips">
+              <span class="chip">Probiotics</span>
+              <span class="chip">Phytosterols</span>
+            </div>
+            <p class="prod-desc">
+              Balances the skin microbiome while deeply restoring the
+              skin's natural lipid barrier and immune defence mechanisms.
+            </p>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">€35.00</span>
+            <a href="https://www.innosenta.com/en/shop"
+               class="prod-btn"
+               aria-label="View ProbioBalance Fluid"
+               target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Antioxidant Serum -->
+        <article class="prod-card reveal reveal-d2">
+          <div class="prod-visual">
+            <div class="prod-swatch swatch-c" aria-label="Product image placeholder">
+              <div class="prod-swatch-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+              </div>
+              <span class="prod-swatch-label">Product Image</span>
+            </div>
+            <span class="prod-badge">New</span>
+          </div>
+          <div class="prod-info">
+            <p class="prod-cat">Serum</p>
+            <h3 class="prod-name">Moisturising Antioxidant Serum</h3>
+            <div class="prod-chips">
+              <span class="chip">Hyaluronic Acid</span>
+              <span class="chip">Flaxseed</span>
+              <span class="chip">Apple Extract</span>
+            </div>
+            <p class="prod-desc">
+              Rich in free-radical-fighting antioxidants, this serum
+              maintains deep cellular hydration while protecting against
+              environmental stressors.
+            </p>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">€29.00</span>
+            <a href="https://www.innosenta.com/en/shop"
+               class="prod-btn"
+               aria-label="View Moisturising Antioxidant Serum"
+               target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Gentle Cleansing Foam -->
+        <article class="prod-card reveal reveal-d3">
+          <div class="prod-visual">
+            <div class="prod-swatch swatch-d" aria-label="Product image placeholder">
+              <div class="prod-swatch-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2l7 10a7 7 0 11-14 0L12 2z"/></svg>
+              </div>
+              <span class="prod-swatch-label">Product Image</span>
+            </div>
+          </div>
+          <div class="prod-info">
+            <p class="prod-cat">Cleanser</p>
+            <h3 class="prod-name">Gentle Cleansing Foam</h3>
+            <div class="prod-chips">
+              <span class="chip">Chamomile</span>
+              <span class="chip">Calendula</span>
+              <span class="chip">Oat Colloid</span>
+            </div>
+            <p class="prod-desc">
+              A microbiome-gentle foam that purifies thoroughly without
+              disturbing the skin's natural protective barrier.
+            </p>
+          </div>
+          <div class="prod-footer">
+            <span class="prod-price">€12.00</span>
+            <a href="https://www.innosenta.com/en/shop"
+               class="prod-btn"
+               aria-label="View Gentle Cleansing Foam"
+               target="_blank" rel="noopener">
+              <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SCIENCE / COMPARISON
+  ===================================================== -->
+  <section id="science" aria-labelledby="science-title">
+    <div class="container">
+      <div class="science-layout">
+
+        <!-- Left: copy -->
+        <div>
+          <span class="eyebrow reveal">The Science</span>
+          <h2 class="section-title section-title--light reveal reveal-d1" id="science-title">
+            Why <em>Living</em><br>Cosmetics Work
+          </h2>
+          <div class="science-divider reveal reveal-d1" aria-hidden="true"></div>
+          <p class="section-body section-body--light reveal reveal-d2">
+            Most cosmetics create illusions. Synthetic polymers smooth the surface
+            temporarily. Chemical emollients seal moisture in. Artificial fragrances
+            signal freshness. These effects fade — and the foreign molecules left behind
+            obstruct your skin's natural repair cycles, reducing its ability to produce
+            elastin, collagen, and its own hydration.
+          </p>
+          <div class="science-quote-card reveal reveal-d3">
+            <p>
+              "Living cosmetics use natural raw materials in their most natural form,
+              preserving their inherent qualities rather than trying to transform them
+              technologically. Skin cells interact more harmoniously with them — enabling
+              lasting, sustainable results."
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: comparison + ritual -->
+        <div class="reveal reveal-d2">
+          <div class="vs-grid">
+            <div class="vs-card vs-card-bad" role="region" aria-label="Conventional natural cosmetics">
+              <div class="vs-label">Conventional "Natural"</div>
+              <ul class="vs-list">
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="rgba(255,255,255,0.28)" stroke-width="1.5">
+                    <path d="M4 4l8 8M12 4l-8 8"/>
+                  </svg>
+                  Up to 5% synthetic additives
+                </li>
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="rgba(255,255,255,0.28)" stroke-width="1.5">
+                    <path d="M4 4l8 8M12 4l-8 8"/>
+                  </svg>
+                  Artificial preservatives
+                </li>
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="rgba(255,255,255,0.28)" stroke-width="1.5">
+                    <path d="M4 4l8 8M12 4l-8 8"/>
+                  </svg>
+                  Temporary surface effects
+                </li>
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="rgba(255,255,255,0.28)" stroke-width="1.5">
+                    <path d="M4 4l8 8M12 4l-8 8"/>
+                  </svg>
+                  Cellular burden accumulates
+                </li>
+              </ul>
+            </div>
+
+            <div class="vs-card vs-card-good" role="region" aria-label="Innosenta living cosmetics">
+              <div class="vs-label">Innosenta Living</div>
+              <ul class="vs-list">
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="var(--blue-light)" stroke-width="1.5">
+                    <path d="M2 8l4 4 8-8"/>
+                  </svg>
+                  100% natural raw materials
+                </li>
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="var(--blue-light)" stroke-width="1.5">
+                    <path d="M2 8l4 4 8-8"/>
+                  </svg>
+                  Fresh-made, peak potency
+                </li>
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="var(--blue-light)" stroke-width="1.5">
+                    <path d="M2 8l4 4 8-8"/>
+                  </svg>
+                  Deep, lasting cellular change
+                </li>
+                <li class="vs-item">
+                  <svg class="vs-ico" viewBox="0 0 16 16" fill="none"
+                       stroke="var(--blue-light)" stroke-width="1.5">
+                    <path d="M2 8l4 4 8-8"/>
+                  </svg>
+                  Activates natural skin renewal
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ritual-steps">
+            <p class="ritual-label">Daily Ritual Order</p>
+            <div class="ritual-grid" role="list" aria-label="Recommended application order">
+              <div class="ritual-step" role="listitem">
+                <div class="ritual-step-num">1. Cleanse</div>
+                <div class="ritual-step-name">Face Foam</div>
+              </div>
+              <div class="ritual-step" role="listitem">
+                <div class="ritual-step-num">2. Tone</div>
+                <div class="ritual-step-name">Rose Tonic</div>
+              </div>
+              <div class="ritual-step" role="listitem">
+                <div class="ritual-step-num">3. Serum</div>
+                <div class="ritual-step-name">HydraPeptide</div>
+              </div>
+              <div class="ritual-step" role="listitem">
+                <div class="ritual-step-num">4. Cream</div>
+                <div class="ritual-step-name">Nourishing</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       INGREDIENTS
+  ===================================================== -->
+  <section id="ingredients" aria-labelledby="ingredients-title">
+    <div class="container">
+      <div class="ingredients-head">
+        <span class="eyebrow eyebrow-center reveal">Key Botanicals</span>
+        <h2 class="section-title reveal reveal-d1" id="ingredients-title">
+          Ingredients <em>Chosen</em><br>by Nature
+        </h2>
+        <p class="section-body reveal reveal-d2" style="margin-top:16px;">
+          Every active is sourced in its most unaltered form, preserving
+          the natural intelligence of the plant.
+        </p>
+      </div>
+      <div class="ingredients-grid">
+
+        <div class="ing-card reveal">
+          <div class="ing-icon" aria-hidden="true">🌿</div>
+          <h3 class="ing-name">Peptides</h3>
+          <p class="ing-benefit">Stimulate fibroblasts to produce collagen, elastin &amp; natural hyaluronic acid</p>
+        </div>
+
+        <div class="ing-card reveal reveal-d1">
+          <div class="ing-icon" aria-hidden="true">💧</div>
+          <h3 class="ing-name">Hyaluronic Acid</h3>
+          <p class="ing-benefit">Small molecules penetrate deeper layers for lasting, genuine cellular hydration</p>
+        </div>
+
+        <div class="ing-card reveal reveal-d2">
+          <div class="ing-icon" aria-hidden="true">🫒</div>
+          <h3 class="ing-name">Argan Oil</h3>
+          <p class="ing-benefit">Rich in antioxidants, fatty acids &amp; vitamin E — a natural anti-aging powerhouse</p>
+        </div>
+
+        <div class="ing-card reveal reveal-d3">
+          <div class="ing-icon" aria-hidden="true">🌸</div>
+          <h3 class="ing-name">Chamomile</h3>
+          <p class="ing-benefit">Calms inflammation, soothes sensitive skin, and actively supports the barrier</p>
+        </div>
+
+        <div class="ing-card reveal reveal-d4">
+          <div class="ing-icon" aria-hidden="true">🌱</div>
+          <h3 class="ing-name">Probiotics</h3>
+          <p class="ing-benefit">Balance the skin microbiome for a healthier, more resilient complexion</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       STATS BAR
+  ===================================================== -->
+  <section id="stats" aria-label="Brand statistics">
+    <div class="container">
+      <div class="stats-grid">
+
+        <div class="stat">
+          <div class="stat-num">
+            <span class="count-up" data-target="100">0</span><sup>%</sup>
+          </div>
+          <p class="stat-label">Natural Ingredients</p>
+          <p class="stat-hint">Zero compromise on purity</p>
+        </div>
+
+        <div class="stat">
+          <div class="stat-num">
+            <span class="count-up" data-target="0">0</span>
+          </div>
+          <p class="stat-label">Synthetic Additives</p>
+          <p class="stat-hint">Not even 0.1%</p>
+        </div>
+
+        <div class="stat">
+          <div class="stat-num">
+            <span class="count-up" data-target="1">0</span>–<span class="count-up" data-target="3">0</span><sub>days</sub>
+          </div>
+          <p class="stat-label">Fulfilment Time</p>
+          <p class="stat-hint">Fresh-made per order</p>
+        </div>
+
+        <div class="stat">
+          <div class="stat-num">
+            <span class="count-up" data-target="6">0</span>
+          </div>
+          <p class="stat-label">Product Lines</p>
+          <p class="stat-hint">Complete skincare ritual</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FULL RANGE
+  ===================================================== -->
+  <section id="range" aria-labelledby="range-title">
+    <div class="container">
+      <div class="range-head">
+        <span class="eyebrow eyebrow-center reveal">Complete Ritual</span>
+        <h2 class="section-title reveal reveal-d1" id="range-title">
+          The Full <em>Collection</em>
+        </h2>
+        <p class="section-body reveal reveal-d2" style="margin-top:16px;">
+          A thoughtfully curated range covering every step of your
+          daily ritual — from first cleanse to final nourishment.
+        </p>
+      </div>
+      <div class="range-grid">
+
+        <div class="range-card reveal">
+          <div class="range-num" aria-hidden="true">01</div>
+          <h3 class="range-name">Cleansers</h3>
+          <p class="range-desc">
+            Microbiome-respecting formulas that purify thoroughly without
+            stripping the skin's natural protective barrier.
+          </p>
+          <a href="https://www.innosenta.com/en/shop"
+             class="range-link" target="_blank" rel="noopener">
+            Explore
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+        <div class="range-card reveal reveal-d1">
+          <div class="range-num" aria-hidden="true">02</div>
+          <h3 class="range-name">Tonics</h3>
+          <p class="range-desc">
+            Rose, neroli, elastin, and collagen — our tonics prepare and
+            activate the skin for optimal absorption of the actives to follow.
+          </p>
+          <a href="https://www.innosenta.com/en/shop"
+             class="range-link" target="_blank" rel="noopener">
+            Explore
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+        <div class="range-card reveal reveal-d2">
+          <div class="range-num" aria-hidden="true">03</div>
+          <h3 class="range-name">Serums &amp; Fluids</h3>
+          <p class="range-desc">
+            Our highest-concentration actives. Targeted treatments for
+            hydration, antioxidant protection, and deep cellular renewal.
+          </p>
+          <a href="https://www.innosenta.com/en/shop"
+             class="range-link" target="_blank" rel="noopener">
+            Explore
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+        <div class="range-card reveal reveal-d1">
+          <div class="range-num" aria-hidden="true">04</div>
+          <h3 class="range-name">Creams</h3>
+          <p class="range-desc">
+            Nourishing, protective formulas that seal in your serum's
+            actives while supporting the skin's overnight renewal process.
+          </p>
+          <a href="https://www.innosenta.com/en/shop"
+             class="range-link" target="_blank" rel="noopener">
+            Explore
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+        <div class="range-card reveal reveal-d2">
+          <div class="range-num" aria-hidden="true">05</div>
+          <h3 class="range-name">Eye Zone</h3>
+          <p class="range-desc">
+            Lightweight, fast-absorbing formulas that reduce puffiness,
+            improve microcirculation, and visibly support the delicate eye area.
+          </p>
+          <a href="https://www.innosenta.com/en/shop"
+             class="range-link" target="_blank" rel="noopener">
+            Explore
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+        <div class="range-card reveal reveal-d3">
+          <div class="range-num" aria-hidden="true">06</div>
+          <h3 class="range-name">Gift Sets</h3>
+          <p class="range-desc">
+            Sample collections and curated gift ideas — the perfect
+            introduction to living cosmetics for yourself or someone you love.
+          </p>
+          <a href="https://www.innosenta.com/en/shop"
+             class="range-link" target="_blank" rel="noopener">
+            Explore
+            <svg viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       3D / VIDEO SHOWCASE PLACEHOLDER
+  ===================================================== -->
+  <section id="showcase" aria-label="Product showcase — coming soon">
+    <div class="container">
+      <div class="showcase-box reveal">
+        <div class="showcase-inner-content">
+          <div class="showcase-badge" aria-hidden="true">
+            <span class="showcase-badge-dot"></span>
+            Coming Soon
+          </div>
+          <div class="showcase-ring" aria-hidden="true">
+            <!-- Play / video icon -->
+            <svg viewBox="0 0 32 32">
+              <circle cx="16" cy="16" r="14.5"/>
+              <polygon points="13,10 13,22 23,16"
+                       fill="currentColor" stroke="none" opacity="0.45"/>
+            </svg>
+          </div>
+          <h2 class="showcase-title">
+            Product Showcase<br>
+            <em>Experience</em>
+          </h2>
+          <p class="showcase-desc">
+            An immersive scroll-driven product exploration is being
+            crafted for this space. Check back soon.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       TESTIMONIALS
+  ===================================================== -->
+  <section id="testimonials" aria-labelledby="testimonials-title">
+    <div class="container">
+      <div class="testimonials-head">
+        <span class="eyebrow eyebrow-center reveal">Real Results</span>
+        <h2 class="section-title reveal reveal-d1" id="testimonials-title">
+          What Our <em>Customers</em> Say
+        </h2>
+      </div>
+    </div>
+
+    <div class="container" style="overflow:hidden;">
+      <div class="t-scroll-wrap" id="t-wrap" role="region" aria-label="Customer testimonials" tabindex="0">
+        <div class="t-track" id="t-track">
+
+          <article class="t-card reveal">
+            <div class="t-stars" aria-label="5 out of 5 stars">
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+            </div>
+            <blockquote class="t-quote">
+              "I've tried countless natural skincare lines over the years. Nothing
+              has made a difference quite like Innosenta. The HydraPeptide Serum
+              gave me visible results within two weeks — my skin feels genuinely alive."
+            </blockquote>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">A</div>
+              <div>
+                <p class="t-name">Anna K.</p>
+                <p class="t-loc">Riga, Latvia</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="t-card reveal reveal-d1">
+            <div class="t-stars" aria-label="5 out of 5 stars">
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+            </div>
+            <blockquote class="t-quote">
+              "The concept of living cosmetics finally explains why most 'natural'
+              products never worked for me. My skin has stopped reacting and feels
+              balanced for the first time in years. The difference is real."
+            </blockquote>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">M</div>
+              <div>
+                <p class="t-name">Marta L.</p>
+                <p class="t-loc">Vilnius, Lithuania</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="t-card reveal reveal-d2">
+            <div class="t-stars" aria-label="5 out of 5 stars">
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+            </div>
+            <blockquote class="t-quote">
+              "I ordered the sample set before committing. Two weeks later
+              I ordered everything. The ProbioBalance Fluid has completely
+              transformed my skin's texture. I'm genuinely impressed."
+            </blockquote>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">S</div>
+              <div>
+                <p class="t-name">Sandra R.</p>
+                <p class="t-loc">Helsinki, Finland</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="t-card reveal reveal-d3">
+            <div class="t-stars" aria-label="5 out of 5 stars">
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+            </div>
+            <blockquote class="t-quote">
+              "What I appreciate most is the complete transparency around
+              ingredients. Nothing hidden, nothing synthetic. Just pure formulations
+              that actually communicate with your skin. The results speak for themselves."
+            </blockquote>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">E</div>
+              <div>
+                <p class="t-name">Elena V.</p>
+                <p class="t-loc">Stockholm, Sweden</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="t-card reveal reveal-d4">
+            <div class="t-stars" aria-label="5 out of 5 stars">
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+              <span class="t-star" aria-hidden="true">★</span>
+            </div>
+            <blockquote class="t-quote">
+              "After years of sensitive skin struggles, I was hesitant to try
+              yet another brand. Innosenta's Foam and Tonic combination has become
+              my non-negotiable morning ritual. Gentle, effective, and completely pure."
+            </blockquote>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">K</div>
+              <div>
+                <p class="t-name">Kristīne B.</p>
+                <p class="t-loc">Tallinn, Estonia</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="t-nav" role="group" aria-label="Testimonials navigation">
+        <button class="t-nav-btn" id="t-prev" aria-label="Previous testimonials">
+          <svg viewBox="0 0 16 16"><path d="M10 4L6 8l4 4"/></svg>
+        </button>
+        <button class="t-nav-btn" id="t-next" aria-label="Next testimonials">
+          <svg viewBox="0 0 16 16"><path d="M6 4l4 4-4 4"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FINAL CTA
+  ===================================================== -->
+  <section id="cta" aria-labelledby="cta-title">
+    <div class="cta-orb-1" aria-hidden="true"></div>
+    <div class="cta-orb-2" aria-hidden="true"></div>
+    <div class="container">
+      <div class="cta-content reveal">
+        <h2 class="cta-headline" id="cta-title">
+          Your skin deserves<br>the <em>truth.</em>
+        </h2>
+        <p class="cta-sub">
+          Begin your living cosmetics ritual. Formulated fresh,
+          delivered in days, felt for months.
+        </p>
+        <div class="cta-btns">
+          <a href="https://www.innosenta.com/en/shop"
+             class="btn-primary"
+             target="_blank" rel="noopener">
+            Start Your Ritual
+            <span class="btn-arrow" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                   stroke="currentColor" stroke-width="1.5">
+                <path d="M2 6h8M6 2l4 4-4 4"/>
+              </svg>
+            </span>
+          </a>
+          <a href="https://www.innosenta.com/en/shop"
+             class="btn-ghost"
+             target="_blank" rel="noopener">
+            Explore Sample Sets
+          </a>
+        </div>
+        <div class="cta-trust-row" aria-label="Trust signals">
+          <div class="cta-trust-item">
+            <span class="cta-trust-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M8 2l1.5 3h3.5l-2.8 2 1 3.5L8 9l-3.2 1.5 1-3.5L3 5h3.5z"/></svg>
+            </span>
+            Free shipping in Latvia from €40
+          </div>
+          <div class="cta-trust-item">
+            <span class="cta-trust-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="7"/><path d="M8 5v4l2.5 1.5"/></svg>
+            </span>
+            Fresh-made in 1–3 days
+          </div>
+          <div class="cta-trust-item">
+            <span class="cta-trust-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M8 1L10.5 6H15l-3.8 2.8 1.4 5L8 11l-4.6 2.8 1.4-5L1 6h4.5z"/></svg>
+            </span>
+            100% natural, always
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FOOTER
+  ===================================================== -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div>
+          <a href="#" class="footer-logo-link" aria-label="Innosenta Home">
+            <div class="nav-logo-badge" style="width:34px;height:34px;font-size:17px;" aria-hidden="true">I</div>
+            <div>
+              <div class="footer-logo-wordmark">Innosenta</div>
+              <span class="footer-logo-micro">Life Cosmetics</span>
+            </div>
+          </a>
+          <p class="footer-brand-desc">
+            Living cosmetics crafted from 100% natural ingredients —
+            preserved in their purest form, working in harmony with
+            your skin's natural intelligence.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="https://www.innosenta.com/en/shop" target="_blank" rel="noopener">All Products</a></li>
+            <li><a href="https://www.innosenta.com/en/shop" target="_blank" rel="noopener">Serums &amp; Fluids</a></li>
+            <li><a href="https://www.innosenta.com/en/shop" target="_blank" rel="noopener">Creams</a></li>
+            <li><a href="https://www.innosenta.com/en/shop" target="_blank" rel="noopener">Cleansers</a></li>
+            <li><a href="https://www.innosenta.com/en/shop" target="_blank" rel="noopener">Gift Sets</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Brand</h4>
+          <ul>
+            <li><a href="#philosophy">Philosophy</a></li>
+            <li><a href="#science">Our Science</a></li>
+            <li><a href="https://www.innosenta.com/en/blog" target="_blank" rel="noopener">Journal</a></li>
+            <li><a href="https://www.innosenta.com" target="_blank" rel="noopener">About</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Support</h4>
+          <ul>
+            <li><a href="https://www.innosenta.com" target="_blank" rel="noopener">Contact</a></li>
+            <li><a href="https://www.innosenta.com" target="_blank" rel="noopener">Shipping</a></li>
+            <li><a href="https://www.innosenta.com" target="_blank" rel="noopener">Returns</a></li>
+            <li><a href="https://www.innosenta.com" target="_blank" rel="noopener">FAQ</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2024 Innosenta Life Cosmetics. All rights reserved.</p>
+        <nav class="footer-langs" aria-label="Language selector">
+          <span class="footer-lang active" lang="en">EN</span>
+          <span class="footer-lang" lang="lv">LV</span>
+          <span class="footer-lang" lang="de">DE</span>
+          <span class="footer-lang" lang="fr">FR</span>
+          <span class="footer-lang" lang="sv">SV</span>
+          <span class="footer-lang" lang="ru">RU</span>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+       JAVASCRIPT
+  ===================================================== -->
+  <script>
+    // ─── LOADER ──────────────────────────────────────────
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('out');
+      }, 2100);
+    });
+
+    // ─── STARSCAPE ───────────────────────────────────────
+    (function initStars() {
+      const canvas = document.getElementById('stars');
+      const ctx    = canvas.getContext('2d');
+      let stars    = [];
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function build() {
+        stars = [];
+        const n = 200;
+        for (let i = 0; i < n; i++) {
+          stars.push({
+            x:  Math.random() * canvas.width,
+            y:  Math.random() * canvas.height,
+            r:  Math.random() * 1.1 + 0.15,
+            baseOpacity: Math.random() * 0.55 + 0.08,
+            dx: (Math.random() - 0.5) * 0.12,
+            twSpeed: Math.random() * 0.018 + 0.004,
+            twPhase: Math.random() * Math.PI * 2,
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const t = Date.now() * 0.001;
+        for (const s of stars) {
+          const opacity = s.baseOpacity * (0.45 + 0.55 * Math.sin(t * s.twSpeed * 60 + s.twPhase));
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(196, 216, 228, ${opacity})`;
+          ctx.fill();
+          s.x += s.dx;
+          if (s.x < 0)             s.x = canvas.width;
+          if (s.x > canvas.width)  s.x = 0;
+        }
+        requestAnimationFrame(draw);
+      }
+
+      resize(); build(); draw();
+      window.addEventListener('resize', () => { resize(); build(); });
+    }());
+
+    // ─── SCROLL PROGRESS ─────────────────────────────────
+    const progressBar = document.getElementById('progress-bar');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const max      = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = ((scrolled / max) * 100).toFixed(1) + '%';
+    }, { passive: true });
+
+    // ─── NAVBAR PILL ─────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('pill', window.scrollY > 72);
+    }, { passive: true });
+
+    // ─── MOBILE MENU ─────────────────────────────────────
+    const burgerBtn = document.getElementById('burger-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuClose  = document.getElementById('menu-close');
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      burgerBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      burgerBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    burgerBtn.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
+    document.querySelectorAll('.menu-link').forEach(l => {
+      l.addEventListener('click', closeMenu);
+    });
+
+    // ─── REVEAL ON SCROLL ────────────────────────────────
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ─── COUNT-UP ANIMATION ──────────────────────────────
+    function easeOutExpo(t) {
+      return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    function countUp(el, target, duration) {
+      const start = Date.now();
+      (function tick() {
+        const elapsed = Date.now() - start;
+        const progress = Math.min(elapsed / duration, 1);
+        el.textContent = Math.round(easeOutExpo(progress) * target);
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      })();
+    }
+
+    const statsSection = document.getElementById('stats');
+    let statsTriggered = false;
+    const statsObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !statsTriggered) {
+        statsTriggered = true;
+        document.querySelectorAll('.count-up').forEach((el, i) => {
+          const target = parseInt(el.dataset.target, 10);
+          setTimeout(() => countUp(el, target, 1800), i * 220);
+        });
+        statsObserver.disconnect();
+      }
+    }, { threshold: 0.35 });
+    if (statsSection) statsObserver.observe(statsSection);
+
+    // ─── TESTIMONIALS DRAG SCROLL ────────────────────────
+    (function initTestimonials() {
+      const wrap  = document.getElementById('t-wrap');
+      const CARD  = 390 + 22; // card width + gap
+
+      let isDragging = false;
+      let startX, scrollStart;
+
+      wrap.addEventListener('mousedown', e => {
+        isDragging  = true;
+        startX      = e.pageX - wrap.offsetLeft;
+        scrollStart = wrap.scrollLeft;
+      });
+      document.addEventListener('mouseup', () => { isDragging = false; });
+      wrap.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        e.preventDefault();
+        wrap.scrollLeft = scrollStart - (e.pageX - wrap.offsetLeft - startX) * 1.3;
+      });
+
+      // Touch
+      wrap.addEventListener('touchstart', e => {
+        startX      = e.touches[0].pageX;
+        scrollStart = wrap.scrollLeft;
+      }, { passive: true });
+      wrap.addEventListener('touchmove', e => {
+        wrap.scrollLeft = scrollStart - (e.touches[0].pageX - startX) * 1.3;
+      }, { passive: true });
+
+      // Nav buttons
+      document.getElementById('t-prev').addEventListener('click', () => {
+        wrap.scrollBy({ left: -CARD, behavior: 'smooth' });
+      });
+      document.getElementById('t-next').addEventListener('click', () => {
+        wrap.scrollBy({ left:  CARD, behavior: 'smooth' });
+      });
+    }());
+
+    // ─── HERO PARALLAX ORBS ──────────────────────────────
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > window.innerHeight) return;
+      document.querySelectorAll('.hero-orb').forEach((orb, i) => {
+        const speed = 0.12 + i * 0.07;
+        orb.style.transform = `translateY(${y * speed}px)`;
+      });
+    }, { passive: true });
+
+    // ─── SMOOTH ANCHOR SCROLL ────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+</body>
+</html>
