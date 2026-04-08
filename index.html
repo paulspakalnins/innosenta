@@ -170,18 +170,26 @@
        TOP BANNER
     ===================================================== */
     #top-banner {
-      background: var(--blue);
-      color: white;
+      background: var(--navy);
+      color: rgba(255,255,255,0.55);
       text-align: center;
-      padding: 9px 20px;
-      font-family: var(--font-ui);
-      font-size: 11px;
-      letter-spacing: 0.2em;
+      padding: 7px 20px;
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      font-weight: 500;
+      font-weight: 400;
       position: relative; z-index: 900;
     }
-    #top-banner a { color: white; text-decoration: underline; text-underline-offset: 2px; }
+    #top-banner strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+    #top-banner a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.25);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    #top-banner a:hover { color: white; border-color: rgba(255,255,255,0.6); }
 
     /* =====================================================
        SCROLL PROGRESS
