@@ -1,0 +1,131 @@
+/* ===================================
+   INNOSENTA ORIGINAL THEME CSS
+   Extracted from: post-13.css
+   Source: https://innosenta.com/wp-content/uploads/elementor/css/post-13.css
+   =================================== */
+
+.elementor-kit-13{
+    --e-global-color-primary:#8AACC1;
+    --e-global-color-secondary:#54595F;
+    --e-global-color-text:#7A7A7A;
+    --e-global-color-accent:#6C7E90;
+    --e-global-color-0030b2a:#FFFFFF;
+    --e-global-color-c320776:#EEE5E9;
+    --e-global-color-ca90b27:#000000;
+    --e-global-color-714315c:#02010100;
+    --e-global-color-37196ef:#395C6B;
+    --e-global-color-1c9885a:#77928B;
+    --e-global-color-1d63fb0:#FAFAFA;
+    --e-global-color-4b98934:#8AACC1;
+    --e-global-color-77454b4:#6C7E90;
+    --e-global-color-0833caa:#E8F5FD;
+    --e-global-typography-primary-font-family:"Virsrakstiem Gill Sans";
+    --e-global-typography-primary-font-weight:600;
+    --e-global-typography-secondary-font-family:"Clear Sans Thin Aprakstiem";
+    --e-global-typography-secondary-font-weight:400;
+    --e-global-typography-text-font-family:"Clear Sans Thin Aprakstiem";
+    --e-global-typography-text-font-weight:400;
+    --e-global-typography-accent-font-family:"Roboto";
+    --e-global-typography-accent-font-weight:500;
+    font-family:"Clear Sans Thin Aprakstiem", Sans-serif;
+}
+
+.elementor-kit-13 e-page-transition{
+    background-color:#FFBC7D;
+}
+
+.elementor-kit-13 h1{
+    font-family:"Virsrakstiem Gill Sans", Sans-serif;
+    font-weight:400;
+}
+
+.elementor-kit-13 h2{
+    font-family:"Virsrakstiem Gill Sans", Sans-serif;
+}
+
+.elementor-kit-13 h3{
+    font-family:"Virsrakstiem Gill Sans", Sans-serif;
+}
+
+.elementor-kit-13 h4{
+    font-family:"Virsrakstiem Gill Sans", Sans-serif;
+}
+
+.elementor-kit-13 button,
+.elementor-kit-13 input[type="button"],
+.elementor-kit-13 input[type="submit"],
+.elementor-kit-13 .elementor-button{
+    font-family:"Vogue Regular", Sans-serif;
+}
+
+.elementor-section.elementor-section-boxed > .elementor-container{
+    max-width:1140px;
+}
+
+.e-con{
+    --container-max-width:1140px;
+}
+
+.elementor-widget:not(:last-child){
+    margin-block-end:20px;
+}
+
+.elementor-element{
+    --widgets-spacing:20px 20px;
+    --widgets-spacing-row:20px;
+    --widgets-spacing-column:20px;
+}
+
+h1.entry-title{
+    display:var(--page-title-display);
+}
+
+/* ===================================
+   CUSTOM FONT-FACE DECLARATIONS
+   =================================== */
+
+@font-face {
+    font-family: 'Virsrakstiem Gill Sans';
+    font-style: normal;
+    font-weight: normal;
+    font-display: auto;
+    src: url('./fonts/Gill-Sans-Nova-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Clear Sans Thin Aprakstiem';
+    font-style: normal;
+    font-weight: normal;
+    font-display: auto;
+    src: url('./fonts/ClearSans-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Vogue Regular';
+    font-style: normal;
+    font-weight: normal;
+    font-display: auto;
+    src: url('./fonts/Vogue.woff2') format('woff2');
+}
+
+/* ===================================
+   RESPONSIVE BREAKPOINTS
+   =================================== */
+
+@media(max-width:1024px){
+    .elementor-section.elementor-section-boxed > .elementor-container{
+        max-width:1024px;
+    }
+    .e-con{
+        --container-max-width:1024px;
+    }
+}
+
+@media(max-width:767px){
+    .elementor-section.elementor-section-boxed > .elementor-container{
+        max-width:767px;
+    }
+    .e-con{
+        --container-max-width:767px;
+    }
+}
